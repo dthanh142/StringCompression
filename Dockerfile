@@ -1,5 +1,5 @@
 # Build stage
-FROM maven:3.5.3-jdk-11-alpine as build
+FROM maven:3.6.3-jdk-11 as build
 MAINTAINER thanhpham
 WORKDIR /app
 COPY pom.xml .
