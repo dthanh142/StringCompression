@@ -11,7 +11,6 @@ public class StringCompressServiceImpl implements StringCompressService {
 	@Override
 	public String stringCompress(String msg) {
 		String result = "";
-		
 				
 		try { 
 			for (int i = 0; i < msg.length(); i++) { 
@@ -30,7 +29,6 @@ public class StringCompressServiceImpl implements StringCompressService {
 		    	  	result += count; 
 				}
 			} 
-
 			
 		} catch(Exception ex) {
 			logger.error(ex);
