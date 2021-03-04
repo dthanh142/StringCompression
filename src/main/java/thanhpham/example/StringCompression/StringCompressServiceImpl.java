@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StringCompressServiceImpl implements StringCompressService {
 
-	final static Logger logger = Logger.getLogger(StringCompressionApplication.class);
+	final static Logger logger = Logger.getLogger(StringCompressServiceImpl.class);
 	
 	@Override
 	public String stringCompress(String msg) {
