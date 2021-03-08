@@ -1,0 +1,16 @@
+base_packages:
+- curl
+- vim
+- git
+- ufw
+- iptables-services
+- net-tools
+- tcpdump
+- unzip
+- wget
+- htop
+
+systemadmin: devops
+copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+docker-version: 20.10.3
+custom-tuned-profile: high-network-traffic

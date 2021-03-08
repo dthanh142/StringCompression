@@ -1,0 +1,45 @@
+---
+- name: Install Docker Prerequisite packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+    with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: Configuring docker-ce repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
+
+- name: Install Docker
+  yum:
+    name: "{{ item }}-{{ docker-version }}"
+    state: present
+    with_items:
+    - docker-ce
+    - docker-ce-cli 
+    - containerd.io
+
+- name: Create docker config directory
+  file:
+    path: /etc/docker
+    state: directory
+
+- name: Configure docker
+  copy:    
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+      - restart docker
+      
+- name: Starting and Enabling Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes

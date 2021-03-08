@@ -1,0 +1,50 @@
+---
+- name: firewall allow ssh 
+  ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: firewall deny by default
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+
+# Tunning
+- name: Install tuned package
+  yum: 
+    name: tuned
+    state: latest
+
+- name: Get current active tuned profile
+  command: /usr/sbin/tuned-adm active
+  register: tuned_active
+  changed_when: false
+  ignore_errors: true
+
+- name: Ensure custom tuned directory exists
+  file:
+    path: /usr/lib/tuned/{{ custom-tuned-profile }}
+    state: directory
+
+- name: Create high network traffic profiles
+  copy:    
+    src: tuned.conf
+    dest: /usr/lib/tuned/{{ custom-tuned-profile }}/tuned.conf
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart tuned
+
+- name: Set custom tuned profile.
+  command: "/usr/sbin/tuned-adm profile {{ custom-tuned-profile }}"
+  when:
+    - {{ custom-tuned-profile }} != tuned_active.stdout
+
+
+- name: Starting and Enabling tuned service
+  service:
+    name: tuned
+    state: started
+    enabled: yes
+

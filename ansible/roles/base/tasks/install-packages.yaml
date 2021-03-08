@@ -1,0 +1,11 @@
+---
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install required base packages
+  yum: 
+    name: {{ base_packages }} 
+    state: latest
+

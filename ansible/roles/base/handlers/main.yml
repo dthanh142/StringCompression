@@ -1,0 +1,15 @@
+---
+- name: restart sshd
+    service:
+      name: sshd
+      state: restarted
+
+- name: restart docker
+    service:
+      name: docker
+      state: restarted
+
+- name: restart tuned
+  service:
+    name: tuned
+    state: restarted
